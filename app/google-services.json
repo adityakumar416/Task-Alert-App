@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "565144676083",
+    "firebase_url": "https://crud-demo-75880-default-rtdb.firebaseio.com",
+    "project_id": "crud-demo-75880",
+    "storage_bucket": "crud-demo-75880.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:565144676083:android:8c386be5f2e4fb91cfb986",
+        "android_client_info": {
+          "package_name": "com.example.taskalert"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "565144676083-sdhl814dhl70cjg4ii78k1mikmnac3ts.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.taskalert",
+            "certificate_hash": "13c97b419263432c4b37075c5f19de28ff87a6a7"
+          }
+        },
+        {
+          "client_id": "565144676083-bdamjmvl54e7tq6fh9h3lj55u1fqgdeh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCuPVYqzrYr_VjgCXyj8lXaA6QweUV4tsQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "565144676083-bdamjmvl54e7tq6fh9h3lj55u1fqgdeh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
