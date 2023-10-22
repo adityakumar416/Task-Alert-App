@@ -19,18 +19,162 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.database.ChildEventListener
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import java.util.*
+import kotlin.collections.ArrayList
 
-class AlarmActivity : AppCompatActivity() {
+class AlarmActivity : AppCompatActivity(), AlarmAdapter.OnAlarmItemClickListener {
 
-    private lateinit var ringtone: Ringtone
+    private lateinit var alarmsRecyclerView: RecyclerView
+    private val alarms: ArrayList<Alarm> = arrayListOf()
+    private lateinit var adapter: AlarmAdapter
 
-
-    @SuppressLint("ScheduleExactAlarm")
+    @SuppressLint("ScheduleExactAlarm", "MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_alarm)
 
+        val setAlarmButton: Button = findViewById(R.id.setAlarmButton)
+        setAlarmButton.setOnClickListener {
+            val intent = Intent(this, AddAlarmActivity::class.java)
+            startActivity(intent)
+        }
+
+        alarmsRecyclerView = findViewById(R.id.alarmsRecyclerView)
+        val layoutManager = LinearLayoutManager(this)
+        alarmsRecyclerView.layoutManager = layoutManager
+        val onAlarmItemClickListener: AlarmAdapter.OnAlarmItemClickListener = this
+
+        // Initialize the adapter only once
+        adapter = AlarmAdapter(alarms, onAlarmItemClickListener,this)
+        alarmsRecyclerView.adapter = adapter
+
+        val databaseReference = FirebaseDatabase.getInstance().reference.child("alarms")
+        databaseReference.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                // Clear the existing alarms list
+                alarms.clear()
+                if (snapshot.exists()) {
+                    // Populate the alarms list with data from Firebase
+                    for (alarmSnapshot in snapshot.children) {
+                        val alarm = alarmSnapshot.getValue(Alarm::class.java)
+                        alarm?.let { alarms.add(it) }
+                    }
+
+                    // Notify the adapter that the data has changed
+                    adapter.notifyDataSetChanged()
+                }
+            }
+            override fun onCancelled(error: DatabaseError) {
+                // Handle database error
+            }
+        })
+    }
+
+
+        override fun onAlarmItemClick(id: String, hour: Int, minute: Int, am: Boolean) {
+        val intent = Intent(this, UpdateAlarmActivity::class.java)
+        intent.putExtra("ALARM_ID", id)
+        intent.putExtra("hour",hour)
+        intent.putExtra("minute",minute)
+        intent.putExtra("am",am)
+        startActivity(intent)
+    }
+}
+
+
+/*
+private fun updateAlarmInFirebase(alarmId: String, hour: Int, minute: Int,am:Boolean, timeInMillis: Long) {
+    val isAM = timePicker.currentHour < 12
+    val alarm = Alarm(
+        id = alarmId,
+        hour =hour,
+        minute = minute,
+        isAM = am
+    )
+    val databaseReference = FirebaseDatabase.getInstance().reference.child("alarms")
+
+    databaseReference.child(alarmId).setValue(alarm)
+        .addOnSuccessListener {
+            // Alarm updated successfully
+            setAlarm(timeInMillis)
+            Toast.makeText(this, "Alarm updated successfully!", Toast.LENGTH_SHORT).show()
+            finish()
+        }
+        .addOnFailureListener {
+            // Error occurred while updating the alarm
+            Toast.makeText(this, "Failed to update alarm!", Toast.LENGTH_SHORT).show()
+        }
+}
+*/
+
+
+
+
+/*
+        alarmsRecyclerView = findViewById(R.id.alarmsRecyclerView)
+        val layoutManager = LinearLayoutManager(this)
+        alarmsRecyclerView.layoutManager = layoutManager
+        val onAlarmItemClickListener: AlarmAdapter.OnAlarmItemClickListener = this
+
+        val databaseReference = FirebaseDatabase.getInstance().reference.child("alarms")
+        databaseReference.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val alarmsList = mutableListOf<Alarm>()
+                for (alarmSnapshot in snapshot.children) {
+                    val alarm = alarmSnapshot.getValue(Alarm::class.java)
+                    alarm?.let { alarmsList.add(it) }
+                }
+
+                val adapter = AlarmAdapter(alarmsList, onAlarmItemClickListener)
+                alarmsRecyclerView.adapter = adapter
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Handle database error
+            }
+        })
+
+
+
+
+        val setAlarmButton: Button = findViewById(R.id.setAlarmButton)
+        setAlarmButton.setOnClickListener {
+
+            val intent = Intent(this,AddAlarmActivity::class.java)
+            startActivity(intent)
+
+        }
+
+
+
+    }
+
+    override fun onAlarmItemClick(alarmId: String) {
+        val intent = Intent(this, AddAlarmActivity::class.java)
+        intent.putExtra("ALARM_ID", alarmId)
+        startActivity(intent)
+    }
+
+
+}*/
+
+
+
+
+
+
+
+
+
+/*
         val hourPicker: NumberPicker = findViewById(R.id.hourPicker)
         val minutePicker: NumberPicker = findViewById(R.id.minutePicker)
 
@@ -69,8 +213,4 @@ class AlarmActivity : AppCompatActivity() {
 
 
 
-        }
-    }
-
- 
-}
+        }*/

@@ -5,7 +5,6 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.SET_ALARM" />
-
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
@@ -20,8 +19,16 @@
         android:theme="@style/Theme.TaskAlert"
         tools:targetApi="31">
         <activity
-            android:name=".AlarmActivity"
+            android:name=".UpdateAlarmActivity"
             android:exported="false" />
+        <activity
+            android:name=".AddAlarmActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AlarmActivity"
+            android:exported="true">
+
+        </activity>
         <activity
             android:name=".UpdateNoteActivity"
             android:exported="false" />
