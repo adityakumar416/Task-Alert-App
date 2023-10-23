@@ -1,33 +1,16 @@
 package com.example.taskalert
 
 import android.annotation.SuppressLint
-import android.app.AlarmManager
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
-import android.content.BroadcastReceiver
-import android.content.Context
 import android.content.Intent
-import android.media.Ringtone
-import android.media.RingtoneManager
-import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.widget.Button
-import android.widget.NumberPicker
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.NotificationCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import java.util.*
 import kotlin.collections.ArrayList
 
 class AlarmActivity : AppCompatActivity(), AlarmAdapter.OnAlarmItemClickListener {
@@ -79,12 +62,11 @@ class AlarmActivity : AppCompatActivity(), AlarmAdapter.OnAlarmItemClickListener
     }
 
 
-        override fun onAlarmItemClick(id: String, hour: Int, minute: Int, am: Boolean) {
+        override fun onAlarmItemClick(id: String, hour: Int, minute: Int) {
         val intent = Intent(this, UpdateAlarmActivity::class.java)
         intent.putExtra("ALARM_ID", id)
         intent.putExtra("hour",hour)
         intent.putExtra("minute",minute)
-        intent.putExtra("am",am)
         startActivity(intent)
     }
 }

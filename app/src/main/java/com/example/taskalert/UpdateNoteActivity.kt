@@ -15,6 +15,13 @@ class UpdateNoteActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_update_note)
 
+        val alarm: TextView = findViewById(R.id.alarm)
+
+        alarm.setOnClickListener {
+            val intent = Intent(this,AlarmActivity::class.java)
+            startActivity(intent)
+        }
+
         val titleup: TextView = findViewById(R.id.tv_title_up)
         val noteup: TextView = findViewById(R.id.tv_note_up)
 

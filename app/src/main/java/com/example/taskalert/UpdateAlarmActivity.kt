@@ -8,14 +8,13 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.TimePicker
 import android.widget.Toast
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 
 class UpdateAlarmActivity : AppCompatActivity() {
     private lateinit var btnSetAlarm: Button
     private lateinit var timePicker: TimePicker
-    private lateinit var amTextView: TextView
-    private lateinit var pmTextView: TextView
+   /* private lateinit var amTextView: TextView
+    private lateinit var pmTextView: TextView*/
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,25 +24,25 @@ class UpdateAlarmActivity : AppCompatActivity() {
 
         timePicker = findViewById(R.id.timePicker)
         btnSetAlarm = findViewById(R.id.buttonAlarm)
-        amTextView = findViewById(R.id.amTextView)
-        pmTextView = findViewById(R.id.pmTextView)
+       /* amTextView = findViewById(R.id.amTextView)
+        pmTextView = findViewById(R.id.pmTextView)*/
 
         val alarmId = intent.getStringExtra("ALARM_ID")
         val hour = intent.getIntExtra("hour",0)
         val minute = intent.getIntExtra("minute",0)
-        val am = intent.getBooleanExtra("am",true)
+        val am = intent.getStringExtra("am")
 
 
         timePicker.hour = hour
         timePicker.minute = minute
 
-        if (am==true) {
+       /* if (am==true) {
             amTextView.text = "AM"
             pmTextView.text = "" // Clear PM text
         } else {
             amTextView.text = "" // Clear AM text
             pmTextView.text = "PM"
-        }
+        }*/
         btnSetAlarm.setOnClickListener {
 
 
@@ -52,7 +51,7 @@ class UpdateAlarmActivity : AppCompatActivity() {
                 id = alarmId!!,
                 hour = timePicker.hour,
                 minute = timePicker.minute,
-                isAM = timePicker.hour < 12
+
             )
 
             val reference = FirebaseDatabase.getInstance().reference.child("alarms")
